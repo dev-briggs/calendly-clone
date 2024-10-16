@@ -8,6 +8,13 @@
       "when": 1728983804264,
       "tag": "0000_flat_scorpion",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1729115390319,
+      "tag": "0001_noisy_maverick",
+      "breakpoints": true
     }
   ]
 }
