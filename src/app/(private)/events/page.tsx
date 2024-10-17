@@ -3,6 +3,18 @@ import { CalendarPlus, CalendarRange } from "lucide-react";
 import Link from "next/link";
 import { db } from "@/db";
 import { auth } from "@clerk/nextjs/server";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { ReactNode } from "react";
+import { formatEventDescription } from "@/lib/formatters";
+import CopyEventButton from "@/components/CopyEventButton";
+import { cn } from "@/lib/utils";
 
 export default async function EventsPage() {
   const { userId, redirectToSignIn } = auth();
@@ -28,7 +40,11 @@ export default async function EventsPage() {
       </div>
 
       {events.length > 0 ? (
-        <h1>Events</h1>
+        <div className="grid gap-4 grid-cols-[repeat(auto-fill,minmax(400px,1fr))]">
+          {events.map((event) => (
+            <EventCard key={event.id} {...event} />
+          ))}
+        </div>
       ) : (
         <div className="flex flex-col items-center gap-4">
           <CalendarRange className="size-16 mx-auto" />
@@ -41,5 +57,54 @@ export default async function EventsPage() {
         </div>
       )}
     </>
+  );
+}
+
+type EventCardProps = {
+  id: string;
+  isActive: boolean;
+  name: string;
+  description: string | null;
+  durationInMinutes: number;
+  clerkUserId: string;
+};
+
+function EventCard({
+  id,
+  isActive,
+  name,
+  description,
+  durationInMinutes,
+  clerkUserId,
+}: EventCardProps): ReactNode {
+  return (
+    <Card className={cn("flex flex-col", !isActive && "border-secondary/50")}>
+      <CardHeader className={cn(!isActive && "opacity-50")}>
+        <CardTitle>{name}</CardTitle>
+        <CardDescription>
+          {formatEventDescription(durationInMinutes)}
+        </CardDescription>
+      </CardHeader>
+
+      {description != null && (
+        <CardContent className={cn(!isActive && "opacity-50")}>
+          {description}
+        </CardContent>
+      )}
+
+      <CardFooter className="flex justify-end gap-2 mt-auto">
+        {isActive && (
+          <CopyEventButton
+            variant="outline"
+            eventId={id}
+            clerkUserId={clerkUserId}
+          />
+        )}
+
+        <Button asChild>
+          <Link href={`/events/${id}/edit`}>Edit</Link>
+        </Button>
+      </CardFooter>
+    </Card>
   );
 }
