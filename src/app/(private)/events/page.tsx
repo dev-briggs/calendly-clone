@@ -19,7 +19,7 @@ import { cn } from "@/lib/utils";
 export default async function EventsPage() {
   const { userId, redirectToSignIn } = auth();
 
-  if (userId === null) return redirectToSignIn();
+  if (!userId) return redirectToSignIn();
 
   const events = await db.query.EventTable.findMany({
     where: ({ clerkUserId }, { eq }) => eq(clerkUserId, userId),
