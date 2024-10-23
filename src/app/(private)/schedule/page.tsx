@@ -1,9 +1,10 @@
 import React from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import EventForm from "@/components/forms/EventForm";
 import { auth } from "@clerk/nextjs/server";
 import { db } from "@/db";
 import ScheduleForm from "@/components/forms/ScheduleForm";
+
+export const revalidate = 0;
 
 export default async function SchedulePage() {
   const { userId, redirectToSignIn } = auth();
