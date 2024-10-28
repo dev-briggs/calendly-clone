@@ -15,6 +15,8 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import React, { ReactNode } from "react";
 
+export const revalidate = 0;
+
 export default async function BookingPage({
   params: { clerkUserId },
 }: {

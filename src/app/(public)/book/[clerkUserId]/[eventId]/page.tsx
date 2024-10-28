@@ -1,3 +1,4 @@
+import MeetingForm from "@/components/forms/MeetingForm";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -18,6 +19,8 @@ import {
 } from "date-fns";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+
+export const revalidate = 0;
 
 export default async function BookEventPage({
   params: { clerkUserId, eventId },
@@ -49,7 +52,7 @@ export default async function BookEventPage({
   }
 
   return (
-    <Card className="max-w-md mx-auto">
+    <Card className="max-w-4xl mx-auto">
       <CardHeader>
         <CardTitle>
           Book {event.name} with {calendarUser.fullName}
@@ -59,7 +62,11 @@ export default async function BookEventPage({
         )}
       </CardHeader>
       <CardContent>
-        
+        <MeetingForm
+          validTimes={validTimes}
+          eventId={event.id}
+          clerkUserId={clerkUserId}
+        />
       </CardContent>
     </Card>
   );

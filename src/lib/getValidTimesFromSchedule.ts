@@ -58,7 +58,7 @@ export async function getValidTimesFromSchedule(
 
     return (
       eventTimes.every((eventTime) => {
-        return areIntervalsOverlapping(eventTime!, eventInterval);
+        return !areIntervalsOverlapping(eventTime!, eventInterval);
       }) &&
       availabilities.some((availability) => {
         return (
@@ -105,7 +105,7 @@ function getAvailabilities(
     const end = fromZonedTime(
       setMinutes(
         setHours(date, parseInt(endTime.split(":")[0])),
-        parseInt(startTime.split(":")[1])
+        parseInt(endTime.split(":")[1])
       ),
       timezone
     );
